@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ממיר יוטיוב ל-MP3 | גרסה יציבה</title>
+    <title>ממיר יוטיוב ל-MP3 | הורדה ישירה</title>
     
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -17,30 +17,26 @@
 
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 4px; }
+        iframe { border: none; overflow: hidden; }
     </style>
 </head>
 <body class="bg-slate-900 text-white min-h-screen">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
 
         // Icons
         const MusicIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>;
         const LinkIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>;
         const CheckIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
-        const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
-        const CopyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>;
+        const AlertIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>;
 
         function App() {
             const [url, setUrl] = useState('');
             const [videoData, setVideoData] = useState(null);
             const [loading, setLoading] = useState(false);
             const [error, setError] = useState('');
-            const [copied, setCopied] = useState(false);
 
             const extractVideoId = (inputUrl) => {
                 try {
@@ -96,39 +92,25 @@
                 }
             };
 
-            const handleDownloadClick = (e, serviceUrl) => {
-                // Auto-copy link to clipboard when clicking download
-                // This is a backup in case the external site doesn't grab the URL
-                navigator.clipboard.writeText(url);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 3000);
-            };
-
-            const copyToClipboard = () => {
-                navigator.clipboard.writeText(url);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-            };
-
             return (
-                <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pb-10">
+                <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 pb-10">
                     {/* Header */}
                     <header className="p-6 bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
                         <div className="max-w-4xl mx-auto flex items-center gap-3">
-                            <div className="bg-gradient-to-tr from-pink-500 to-purple-600 p-2 rounded-lg shadow-lg">
+                            <div className="bg-blue-600 p-2 rounded-lg shadow-lg">
                                 <MusicIcon />
                             </div>
-                            <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
+                            <h1 className="text-xl md:text-2xl font-bold text-white">
                                 ממיר יוטיוב ל-MP3
                             </h1>
                         </div>
                     </header>
 
-                    <main className="max-w-4xl mx-auto p-4 md:p-6 space-y-8">
+                    <main className="max-w-3xl mx-auto p-4 md:p-8 space-y-8">
                         {/* Input Section */}
                         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
                             <div className="flex flex-col gap-4">
-                                <label className="text-lg font-medium text-purple-200 flex items-center gap-2">
+                                <label className="text-lg font-medium text-blue-200 flex items-center gap-2">
                                     <LinkIcon />
                                     הדבק קישור יוטיוב
                                 </label>
@@ -140,19 +122,19 @@
                                         onChange={(e) => setUrl(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleProcess()}
                                         placeholder="https://www.youtube.com/watch?v=..."
-                                        className="flex-1 h-12 px-4 rounded-xl bg-black/40 border border-white/10 focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 outline-none text-left placeholder:text-right text-white"
+                                        className="flex-1 h-12 px-4 rounded-xl bg-black/40 border border-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none text-left placeholder:text-right text-white"
                                     />
                                     
                                     <button
                                         onClick={handleProcess}
                                         disabled={loading}
-                                        className="h-12 px-8 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 font-bold shadow-lg flex items-center justify-center gap-2 min-w-[120px]"
+                                        className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold shadow-lg flex items-center justify-center gap-2 min-w-[120px] transition-all active:scale-95"
                                     >
                                         {loading ? (
                                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         ) : (
                                             <>
-                                                <span>בדוק</span>
+                                                <span>הכן להורדה</span>
                                                 <CheckIcon />
                                             </>
                                         )}
@@ -160,85 +142,51 @@
                                 </div>
 
                                 {error && (
-                                    <div className="text-red-400 bg-red-500/10 p-3 rounded-lg text-sm border border-red-500/20">
+                                    <div className="text-red-400 bg-red-500/10 p-3 rounded-lg text-sm border border-red-500/20 flex items-center gap-2">
+                                        <AlertIcon />
                                         {error}
                                     </div>
                                 )}
                             </div>
                         </section>
 
-                        {/* Result Card */}
+                        {/* Result Card with Embedded Downloader */}
                         {videoData && (
                             <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl md:flex">
-                                    {/* Thumbnail */}
-                                    <div className="md:w-1/3 relative bg-black">
+                                <div className="bg-slate-800 border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                                    {/* Video Info Header */}
+                                    <div className="p-4 bg-black/20 flex items-center gap-4 border-b border-white/5">
                                         <img 
                                             src={videoData.thumbnail} 
                                             alt="Thumbnail" 
-                                            className="w-full h-full object-cover opacity-90"
+                                            className="w-16 h-16 object-cover rounded-md shadow-sm"
                                         />
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-6 md:w-2/3 flex flex-col gap-6">
                                         <div>
-                                            <h2 className="text-xl font-bold text-white mb-2 line-clamp-2">
+                                            <h2 className="text-lg font-bold text-white line-clamp-1">
                                                 {videoData.title}
                                             </h2>
-                                            <div className="flex items-center gap-2 text-green-400 text-sm">
-                                                <CheckIcon />
-                                                <span>מוכן להורדה</span>
-                                            </div>
+                                            <div className="text-sm text-green-400">זוהה בהצלחה</div>
+                                        </div>
+                                    </div>
+
+                                    {/* The Magic Iframe - Direct Download Interface */}
+                                    <div className="p-6 bg-white flex flex-col items-center justify-center min-h-[250px]">
+                                        <h3 className="text-slate-800 font-bold mb-2 text-lg">לחץ על כפתור ה-Download הכחול:</h3>
+                                        <p className="text-slate-500 text-sm mb-4">ההמרה תתבצע כאן בחלונית. בסיום, לחץ שוב להורדת הקובץ.</p>
+                                        
+                                        <div className="w-full max-w-md h-[100px] overflow-hidden rounded-lg relative">
+                                            {/* Loader.to API Widget */}
+                                            <iframe 
+                                                src={`https://loader.to/api/button/?format=mp3&url=${encodeURIComponent(videoData.originalUrl)}`}
+                                                style={{width: '100%', height: '100%', border: 'none', overflow: 'hidden'}}
+                                                scrolling="no"
+                                                title="Download Button"
+                                            ></iframe>
                                         </div>
 
-                                        <div className="bg-black/20 rounded-xl p-5 border border-white/5 space-y-4">
-                                            <div className="flex items-center justify-between">
-                                                <p className="text-sm text-slate-300 font-medium">
-                                                    בחר שרת להורדה (ייפתח בחלון חדש):
-                                                </p>
-                                                {copied && <span className="text-xs text-green-400 animate-pulse">הקישור הועתק!</span>}
-                                            </div>
-                                            
-                                            <div className="grid grid-cols-1 gap-3">
-                                                {/* Server 1 - Dirpy (Very reliable) */}
-                                                <a 
-                                                    href={`https://dirpy.com/studio?url=${encodeURIComponent(videoData.originalUrl)}`} 
-                                                    target="_blank" 
-                                                    rel="noopener noreferrer"
-                                                    onClick={(e) => handleDownloadClick(e)}
-                                                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors text-sm font-bold shadow-lg shadow-indigo-500/20"
-                                                >
-                                                    <DownloadIcon />
-                                                    הורדה דרך שרת 1 (Dirpy) - מומלץ
-                                                </a>
-
-                                                {/* Server 2 - Y2Mate (Fallback) */}
-                                                <a 
-                                                    href={`https://www.y2mate.com/youtube/${videoData.id}`} 
-                                                    target="_blank" 
-                                                    rel="noopener noreferrer"
-                                                    onClick={(e) => handleDownloadClick(e)}
-                                                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors text-sm font-bold border border-white/10"
-                                                >
-                                                    <DownloadIcon />
-                                                    הורדה דרך שרת 2 (Y2Mate)
-                                                </a>
-                                            </div>
-                                            
-                                            <div className="pt-4 border-t border-white/10 text-center">
-                                                <p className="text-xs text-slate-400 mb-2">
-                                                    האתר החיצוני לא קלט את הקישור? לחץ כאן להעתקה והדבק אותו ידנית שם:
-                                                </p>
-                                                <button 
-                                                    onClick={copyToClipboard}
-                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-full text-sm text-purple-300 transition-colors"
-                                                >
-                                                    <CopyIcon />
-                                                    {copied ? 'הועתק!' : 'העתק את הקישור לזיכרון'}
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <p className="text-[10px] text-slate-400 mt-6 text-center max-w-xs">
+                                            * אם נפתח חלון פרסומת, סגור אותו וחזור ללחוץ על הכפתור. שירותי המרה חינמיים מתממנים מפרסומות.
+                                        </p>
                                     </div>
                                 </div>
                             </section>
@@ -246,7 +194,7 @@
                     </main>
 
                     <footer className="mt-12 text-center text-slate-500 text-sm">
-                        <p>© 2024 YouTube MP3 Tool • גרסה יציבה</p>
+                        <p>© 2024 YouTube MP3 Tool</p>
                     </footer>
                 </div>
             );
